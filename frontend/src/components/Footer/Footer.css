@@ -1,0 +1,29 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  background-color: #2e3645;
+  color: white;
+  padding: 40px 0;
+}
+
+.footer-logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.footer-section h4 {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.footer-section p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #c0c0c0;
+}
+
+.socials i {
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}

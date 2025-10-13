@@ -1,0 +1,66 @@
+.ask-wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.ask-title {
+  font-size: 1.3rem;
+  color: #111827;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ef4444;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.steps p {
+  font-family: monospace;
+  margin: 8px 0;
+  color: #111827;
+}
+
+.post-title {
+  margin-top: 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #111827;
+  text-align: center;
+}
+
+.ask-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ask-form input,
+.ask-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.ask-form input:focus,
+.ask-form textarea:focus {
+  border-color: #2563eb;
+}
+
+.ask-form button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.ask-form button:hover {
+  background-color: #1d4ed8;
+}

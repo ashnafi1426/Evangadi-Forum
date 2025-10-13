@@ -1,0 +1,29 @@
+.about-page {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.about-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e1e2f;
+}
+
+.about-page p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.about-page a {
+  color: #1e1e2f;
+  text-decoration: underline;
+}
+
+.about-page a:hover {
+  color: #33334d;
+}

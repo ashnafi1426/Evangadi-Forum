@@ -1,0 +1,130 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 6%;
+  min-height: 90vh;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+}
+
+/* Left Card */
+.auth-card {
+  background: #fff;
+  width: 380px;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.auth-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.auth-subtext {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.auth-link {
+  color: #ff6600;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.auth-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auth-form input {
+  padding: 0.8rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.auth-form input:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.2);
+}
+
+.auth-btn {
+  margin-top: 0.8rem;
+  padding: 0.9rem;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #e65c00;
+}
+
+.forgot-text {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #ff6600;
+  cursor: pointer;
+}
+
+/* Right side: About */
+.auth-about {
+  max-width: 480px;
+}
+
+.auth-about h4 {
+  color: #ff6600;
+  font-size: 1.1rem;
+}
+
+.auth-about h1 {
+  color: #2f1c6a;
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+
+.auth-about p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.how-btn {
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+}
+
+.how-btn:hover {
+  background-color: #e65c00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+  .auth-card {
+    width: 100%;
+  }
+}
