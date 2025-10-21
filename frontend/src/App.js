@@ -1,50 +1,3 @@
-// import React, { useEffect,useState,createContext} from 'react'
-// import Home from './pages/Home/Home'
-// import {Route,Routes, useNavigate } from 'react-router-dom';
-// import SignUp from './pages/SignUp/SignUp';
-// import Login from './pages/Login/Login';
-// import axios from './axiosConfig';
-// import ProtectedRoute from './routes/ProtectedRoute';
-// import About from './components/About/About';
-// import Header from './components/Header/Header';
-// import Footer from './components/Footer/Footer';
-// export const AppState=createContext()
-// function App() {
-//   const [user,setUser]=useState({})
-//   const token=localStorage.getItem("token");
-//   const navigate= useNavigate();
-//   async function checkUser() {
-//     try{
-// const {data} =await axios.get('/users/check',{
-//   headers:{
-//    Authorization:`Bearer ${token}`,
-//   },
-// })
-// setUser(data); 
-// // console.log(data)
-//     }catch(error){
-// console.log(error.response);
-// navigate('/Login')
-//     }
-//   }useEffect(()=>{
-//     checkUser();
-//   },[])
-//   return (
-//     <div className='App'>
-//     <AppState.Provider value={{user,setUser}}>
-//       <Header/>
-//        <Routes>
-//         <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-//         <Route path="/about" element={<About />} />
-//         <Route path='/login' element={<Login/>}/>
-//         <Route path='/register' element={<SignUp/>}/>
-//      </Routes>
-//      <Footer/>
-//     </AppState.Provider>
-//     </div>
-//   )
-// }
-// export default App
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -79,8 +32,7 @@ function App() {
                 <Home />
               </ProtectedRoute>
             }
-          />
-
+     />
           <Route
             path="/ask"
             element={
@@ -98,7 +50,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -111,6 +62,4 @@ function App() {
 }
 
 export default App;
-
-
 
