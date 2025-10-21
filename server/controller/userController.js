@@ -10,17 +10,14 @@ const register = async (req, res) => {
   if (!firstname || !lastname || !username || !email || !password) {
     return res.status(StatusCodes.BAD_REQUEST).json({ msg: "All fields are required" });
   }
-
   try {
     const [existing] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
     if (existing.length > 0) {
       return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Email already exists" });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const sql = "INSERT INTO users (firstname, lastname, username, email, password) VALUES (?, ?, ?, ?, ?)";
     const result = await db.query(sql, [firstname, lastname, username, email, hashedPassword]);
-
     res.status(StatusCodes.CREATED).json({ msg: "User registered", userId: result[0].insertId });
   } catch (err) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Database error", error: err.message });

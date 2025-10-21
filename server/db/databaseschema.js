@@ -6,7 +6,7 @@ async function createTables() {
     host: "localhost",
     user: "students",
     password: "123456",
-    database: "Eva_Forum"
+    database: "students"
   });
   try {
     // Users table

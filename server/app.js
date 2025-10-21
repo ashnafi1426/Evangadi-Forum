@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./db/dbConfig");
 const app = express();
-const PORT = process.env.PORT || 5500;
+const PORT = 5500;
 
 // Middleware
 app.use(cors());
@@ -23,9 +23,9 @@ async function start() {
   try {
     await db.execute("SELECT 1");
     console.log("✅ Database connected");
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   } catch (err) {
     console.log("❌ DB connection failed:", err.message);
   }
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 }
 start();
