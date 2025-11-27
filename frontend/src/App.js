@@ -6,10 +6,11 @@ import Footer from "./components/Footer/Footer";
 import AboutPage from "./components/About/About";
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/SignUp/SignUp";
-import SignIn from "./pages/SignIn/SignIn";
+// import SignIn from "./pages/SignIn/SignIn";
 import AskQuestion from "./pages/AskQuestion/AskQuestion";
 import AnswerPage from "./pages/Answers/Answers";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Login from "./pages/Login/Login";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<AboutPage />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<SignIn />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Protected routes */}
           <Route
@@ -54,7 +55,6 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-
       {/* Footer visible on all pages */}
       <Footer />
     </>

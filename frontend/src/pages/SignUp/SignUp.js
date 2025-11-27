@@ -1,89 +1,10 @@
-// import React, { useRef } from "react";
-// import {useNavigate} from "react-router-dom";
-// import "./SignUp.css"; // Optional CSS file
-// import axios from "../../axiosConfig"
-// import { Link } from "react-router-dom";
-// const SignUp = () => {
-//   const navigate=useNavigate();
-//   const userNameDom=useRef();
-// const firstNameDom=useRef();
-// const lastNameDom=useRef();
-// const emailDom=useRef();
-// const passwordDom=useRef();
-// async function handleSubmit(e){
-//   e.preventDefault();
-//   const usernameValue=userNameDom.current.value;
-//   const firstValue=firstNameDom.current.value;
-//   const emailValue=emailDom.current.value;
-//   const passValue=passwordDom.current.value;
-//   const lastValue=lastNameDom.current.value;
-//   // console.log(userNameDom.current.value)
-//   if(!usernameValue||!firstValue||!lastValue||!emailValue||!passValue){
-//     alert("please provide all information")
-//   }
-// try{
-//   await axios.post("/users/register",{
-//     username:usernameValue,
-//     firstname:firstValue,
-//     password:passValue,
-//     email:emailValue,
-//     lastname:lastValue
-//   });
-//   alert("register successfully please login")
-//   navigate("/signIn")
-// }catch(err){
-//   alert("something went wrong");
-//   console.log(err.response)
-// }
-// };
-  
-//   return (
-//     <div className="signup-container">
-//       <h2>Create an Account</h2>
-//       <form className="signup-form" onSubmit={handleSubmit}>
-//         <input
-//           ref={userNameDom}
-//           type="text"
-//           name="username"
-//           placeholder="Username*"/>
-//         <input
-//           ref={firstNameDom}
-//           type="text"
-//           name="firstName"
-//           placeholder="First Name" />
-//         <input
-//           ref={lastNameDom}
-//           type="text"
-//           name="lastName"
-//           placeholder="Last Name" />
-//         <input
-//         ref={emailDom}
-//           type="email"
-//           name="email"
-//           placeholder="Email*"/>
-//         <input
-//           ref={passwordDom}
-//           type="password"
-//           name="password"
-//           placeholder="Password*"/>
-//           <button type="submit">register</button>
-//       </form>
-//       <Link to={'/Login'}>Login</Link>
-//     </div>
-//   );
-// };
-// export default SignUp;
-// import React, { useRef, useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import axios from "../../axiosConfig"; // same as Login
-// import "./SignUp"; // reuse Login.css for consistent style
-// import SignUp from './SignUp';
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "../../axiosConfig";
-import "./Auth.css"; // shared for SignUp and SignIn pages
-function SignUp() {
-  const navigate = useNavigate();
+import userService from "../../services/userService";
+// import { useNavigate } from "react-router-dom";
+
+const SignUp = () => {
+  // const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -92,120 +13,154 @@ function SignUp() {
     password: "",
   });
 
-  const handleChange = (e) =>
+  const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+    setServerError("");
+  };
+
+  const validate = () => {
+    let newErrors = {};
+
+    if (!formData.firstname.trim()) newErrors.firstname = "First name is required";
+    if (!formData.lastname.trim()) newErrors.lastname = "Last name is required";
+    if (!formData.username.trim()) newErrors.username = "Username is required";
+    if (!formData.email.includes("@")) newErrors.email = "Enter a valid email";
+    if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError("");
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
-      await axios.post("/users/register", formData);
-      alert("Registration successful!");
-      navigate("/login");
+      setLoading(true);
+      const data = await userService.registerUser(formData);
+      console.log("User registered:", data);
+      alert(`Success! User ID: ${data.userId}`); // show success
     } catch (err) {
-      alert(err.response?.data?.msg || "Registration failed");
+      console.error("Frontend Error:", err.message);
+      setServerError(err.message); // show backend error
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="auth-wrapper">
-      {/* LEFT FORM CARD */}
-      <div className="auth-card">
-        <h3 className="auth-title">Join the network</h3>
-        <p className="auth-subtext">
-          Already have an account?{" "}
-          <span className="auth-link" onClick={() => navigate("/login")}>
-            Sign in
-          </span>
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white p-8 rounded shadow-lg"
+      >
+        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        {serverError && (
+          <p className="bg-red-100 text-red-600 p-2 rounded mb-3 text-center">
+            {serverError}
+          </p>
+        )}
+
+        {/* firstname */}
+        <div className="mb-4">
+          <label className="block mb-1">First Name</label>
           <input
             type="text"
-            name="email"
-            placeholder="Email address"
-            value={formData.email}
+            name="firstname"
+            className="w-full border p-2 rounded"
+            value={formData.firstname}
             onChange={handleChange}
-            required
           />
+          {errors.firstname && (
+            <p className="text-red-500 text-sm">{errors.firstname}</p>
+          )}
+        </div>
 
-          <div className="auth-row">
-            <input
-              type="text"
-              name="firstname"
-              placeholder="First name"
-              value={formData.firstname}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="lastname"
-              placeholder="Last name"
-              value={formData.lastname}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        {/* lastname */}
+        <div className="mb-4">
+          <label className="block mb-1">Last Name</label>
+          <input
+            type="text"
+            name="lastname"
+            className="w-full border p-2 rounded"
+            value={formData.lastname}
+            onChange={handleChange}
+          />
+          {errors.lastname && (
+            <p className="text-red-500 text-sm">{errors.lastname}</p>
+          )}
+        </div>
 
+        {/* username */}
+        <div className="mb-4">
+          <label className="block mb-1">Username</label>
           <input
             type="text"
             name="username"
-            placeholder="Username"
+            className="w-full border p-2 rounded"
             value={formData.username}
             onChange={handleChange}
-            required
           />
+          {errors.username && (
+            <p className="text-red-500 text-sm">{errors.username}</p>
+          )}
+        </div>
 
+        {/* email */}
+        <div className="mb-4">
+          <label className="block mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            className="w-full border p-2 rounded"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email}</p>
+          )}
+        </div>
+
+        {/* password */}
+        <div className="mb-4">
+          <label className="block mb-1">Password</label>
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            className="w-full border p-2 rounded"
             value={formData.password}
             onChange={handleChange}
-            required
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password}</p>
+          )}
+        </div>
 
-          <label className="auth-terms">
-            <input type="checkbox" required /> I agree to the{" "}
-            <a href="#">privacy policy</a> and{" "}
-            <a href="#">terms of service</a>.
-          </label>
-
-          <button type="submit" className="auth-btn">
-            Agree and Join
-          </button>
-
-          <p className="auth-footer">
-            Already have an account?{" "}
-            <span className="auth-link" onClick={() => navigate("/login")}>
-              Sign in
-            </span>
-          </p>
-        </form>
-      </div>
-
-      {/* RIGHT ABOUT SECTION */}
-      <div className="auth-about">
-        <h4>About</h4>
-        <h1>Evangadi Networks</h1>
-        <p>
-          No matter what stage of life you are in, whether you’re just starting
-          elementary school or being promoted to CEO of a Fortune 500 company,
-          you have much to offer to those who are trying to follow in your
-          footsteps.
-        </p>
-        <p>
-          Whether you are willing to share your knowledge or you are just
-          looking to meet mentors of your own, please start by joining the
-          network here.
-        </p>
-        <button className="how-btn">HOW IT WORKS</button>
-      </div>
+        {/* button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          {loading ? "Creating account..." : "Sign Up"}
+        </button>
+      </form>
     </div>
   );
-}
-
+};
 export default SignUp;
-
-
-
