@@ -1,7 +1,7 @@
 // Home.jsx
 import React, { useEffect, useState } from "react";
-import axios from "../../axiosConfig";
 import { useNavigate, useLocation } from "react-router-dom";
+import questionService from "../../services/questionService";
 import "./Home.css";
 
 function Home() {
@@ -11,23 +11,23 @@ function Home() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Get username
+  // Get username from local storage
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) setUser(storedUser);
   }, []);
 
-  // ✅ Fetch questions
+  // Fetch questions from backend
   const fetchQuestions = async () => {
     try {
-      const res = await axios.get("/questions/all");
-      setQuestions(res.data || []);
+      const data = await questionService.getAllQuestions();
+      setQuestions(data || []);
     } catch (err) {
-      console.error("Error fetching questions:", err);
+      console.error("Error fetching questions:", err.message);
     }
   };
 
-  // ✅ Run on mount + when refresh flag is true
+  // Run on mount and refresh
   useEffect(() => {
     fetchQuestions();
   }, [location.state?.refresh]);
@@ -69,7 +69,7 @@ function Home() {
               <div className="question-left">
                 <div className="avatar">👤</div>
                 <div>
-                  <p className="username">{item.username}</p>
+                  <p className="username">{item.users?.username || "Unknown"}</p>
                   <p className="question-title">{item.title}</p>
                 </div>
               </div>

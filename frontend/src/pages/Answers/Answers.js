@@ -1,6 +1,8 @@
+// AnswerPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../../axiosConfig";
+import questionService from "../../services/questionService";
+import answerService from "../../services/answerService";
 import "./Answers.css";
 
 function AnswerPage() {
@@ -8,39 +10,54 @@ function AnswerPage() {
   const [question, setQuestion] = useState({});
   const [answers, setAnswers] = useState([]);
   const [newAnswer, setNewAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const fetchQuestionAndAnswers = async () => {
+  // Fetch question and answers
+  const fetchData = async () => {
     try {
-      const qRes = await axios.get(`/questions/${id}`);
-      setQuestion(qRes.data.question);
-      setAnswers(qRes.data.answers || []);
+      const data = await questionService.getQuestionById(id);
+
+      // Set question
+      setQuestion(data.question || {});
+
+      // Flatten answers for easy rendering
+      const flattenedAnswers = (data.answers || []).map(ans => ({
+        id: ans.id,
+        answer: ans.answer,
+        created_at: ans.created_at,
+        username: ans.users?.username || "Unknown", // Correct field
+      }));
+
+      setAnswers(flattenedAnswers);
     } catch (err) {
-      console.error("Error fetching question/answers", err);
+      console.error("Fetch Error:", err.message);
     }
   };
 
   useEffect(() => {
-    fetchQuestionAndAnswers();
+    fetchData();
   }, [id]);
 
+  // Post a new answer
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newAnswer.trim()) return alert("Please write your answer");
 
     try {
+      setLoading(true);
       const token = localStorage.getItem("token");
-      await axios.post(
-        `/answers/${id}`,
-        { answer: newAnswer },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+
+      // Send answer to backend
+      await answerService.addAnswer(id, { answer: newAnswer }, token);
 
       alert("Answer posted successfully!");
       setNewAnswer("");
-      fetchQuestionAndAnswers();
+      fetchData(); // Refresh answers after posting
     } catch (err) {
-      alert(err.response?.data?.msg || "Failed to post answer");
-      console.error(err);
+      console.error("Post Error:", err);
+      alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,12 +69,12 @@ function AnswerPage() {
         <p className="question-desc">{question.description}</p>
       </div>
 
-      <h2>Answer From The Community</h2>
+      <h2>Answers From The Community</h2>
       <div className="answer-list">
         {answers.length === 0 ? (
           <p>No answers yet — be the first to answer!</p>
         ) : (
-          answers.map((ans) => (
+          answers.map(ans => (
             <div key={ans.id} className="answer-item">
               <div className="answer-avatar">👤</div>
               <div>
@@ -75,7 +92,9 @@ function AnswerPage() {
           value={newAnswer}
           onChange={(e) => setNewAnswer(e.target.value)}
         ></textarea>
-        <button type="submit">Post Answer</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Posting..." : "Post Answer"}
+        </button>
       </form>
     </div>
   );

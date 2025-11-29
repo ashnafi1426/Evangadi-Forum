@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../axiosConfig";
 import "./About.css";
 
 const AboutPage = () => {
@@ -21,12 +20,25 @@ const AboutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await axios.post("/users/register", formData);
+      const response = await fetch("/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.msg || "Registration failed");
+      }
       alert("Registration successful!");
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.msg || "Registration failed");
+      alert(err.message);
     }
   };
 
@@ -90,8 +102,8 @@ const AboutPage = () => {
 
           <label className="terms-label">
             <input type="checkbox" required />
-            I agree to the <a href="#">privacy policy</a> and{" "}
-            <a href="#">terms of service</a>.
+            I agree to the <a href="hgh">privacy policy</a> and{" "}
+            <a href="hgh">terms of service</a>.
           </label>
 
           <button type="submit" className="signup-btn">

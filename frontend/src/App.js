@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AboutPage from "./components/About/About";
@@ -10,7 +9,8 @@ import SignUp from "./pages/SignUp/SignUp";
 import AskQuestion from "./pages/AskQuestion/AskQuestion";
 import AnswerPage from "./pages/Answers/Answers";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Login from "./pages/Login/Login";
+// import Login from "./pages/Login/Login";
+import SignIn from "./pages/SignIn/SignIn";
 
 function App() {
   return (
@@ -23,14 +23,14 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<AboutPage />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<SignIn />} />
 
           {/* Protected routes */}
           <Route
             path="/home"
             element={
               <ProtectedRoute>
-                <Home />
+                <Home/>
               </ProtectedRoute>
             }
      />
@@ -42,7 +42,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/questions/:id"
             element={

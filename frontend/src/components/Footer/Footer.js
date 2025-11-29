@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-
 function Footer() {
   return (
     <footer className="footer">
@@ -12,14 +11,12 @@ function Footer() {
           <i className="fab fa-youtube"></i>
         </div>
       </div>
-
       <div className="footer-section">
         <h4>Useful Link</h4>
         <p>How it works</p>
         <p>Terms of Service</p>
         <p>Privacy Policy</p>
       </div>
-
       <div className="footer-section">
         <h4>Contact Info</h4>
         <p>Evangadi Networks</p>

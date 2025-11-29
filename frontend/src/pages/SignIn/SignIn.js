@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../axiosConfig";
-import  "./Signin.css"
+import userService from "../../services/userService"; // IMPORT USER SERVICE
+import "./Signin.css";
+
 function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,12 +13,16 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/users/login", formData);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("username", res.data.username);
+      // call userService instead of axios
+      const res = await userService.loginUser(formData);
+
+      // store token and username
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("username", res.username);
+
       navigate("/home");
-    } catch (err) {
-      alert(err.response?.data?.msg || "Login failed");
+    } catch (error) {
+      alert(error.message || "Login failed");
     }
   };
 
@@ -28,7 +33,11 @@ function SignIn() {
         <h3 className="auth-title">Login to your account</h3>
         <p className="auth-subtext">
           Don’t have an account?{" "}
-          <span className="auth-link" onClick={() => navigate("/signup")}>
+          <span
+            className="auth-link"
+            style={{ cursor: "pointer", color: "#007bff" }}
+            onClick={() => navigate("/signup")}
+          >
             Create a new account
           </span>
         </p>
@@ -49,7 +58,7 @@ function SignIn() {
             required
           />
           <div className="forgot-text">Forgot password?</div>
-          <button type="submit" className="auth-btn"> Login </button>
+          <button type="submit" className="auth-btn">Login</button>
         </form>
       </div>
 

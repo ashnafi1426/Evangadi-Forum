@@ -1,7 +1,6 @@
-// AskQuestion.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../../axiosConfig";
+import questionService from "../../services/questionService";
 import "./AskQuestion.css";
 
 function AskQuestion() {
@@ -14,6 +13,7 @@ function AskQuestion() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.title || !formData.description) {
       alert("Please fill in all fields");
       return;
@@ -21,16 +21,19 @@ function AskQuestion() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post("/questions/ask", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const username = localStorage.getItem("username");
 
-      alert("✅ Question posted successfully!");
-      // ✅ Navigate to home AND trigger refresh flag
+      await questionService.addQuestion(
+        { ...formData, username },
+        token
+      );
+
+      alert("Question posted successfully!");
       navigate("/home", { state: { refresh: true } });
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.msg || "Failed to post question");
+
+    } catch (error) {
+      alert(error.message);
+      console.error(error);
     }
   };
 
@@ -39,9 +42,9 @@ function AskQuestion() {
       <h2>Steps To Write A Good Question</h2>
       <ul>
         <li>🟣 Summarize your problem in one line</li>
-        <li>🟣 Describe your problem in more detail</li>
-        <li>🟣 Describe what you tried and what you expected</li>
-        <li>🟣 Review and post your question</li>
+        <li>🟣 Describe your problem in detail</li>
+        <li>🟣 Explain what you tried</li>
+        <li>🟣 Review and post</li>
       </ul>
 
       <h3>Post Your Question</h3>

@@ -1,10 +1,11 @@
+// src/pages/SignUp/SignUp.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import userService from "../../services/userService";
-// import { useNavigate } from "react-router-dom";
+import "./SignUp.css";
 
 const SignUp = () => {
-  // const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -12,155 +13,121 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-
-  const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: "" });
-    }
     setServerError("");
-  };
-
-  const validate = () => {
-    let newErrors = {};
-
-    if (!formData.firstname.trim()) newErrors.firstname = "First name is required";
-    if (!formData.lastname.trim()) newErrors.lastname = "Last name is required";
-    if (!formData.username.trim()) newErrors.username = "Username is required";
-    if (!formData.email.includes("@")) newErrors.email = "Enter a valid email";
-    if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-
-    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setServerError("");
-
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    setLoading(true);
 
     try {
-      setLoading(true);
-      const data = await userService.registerUser(formData);
-      console.log("User registered:", data);
-      alert(`Success! User ID: ${data.userId}`); // show success
+      await userService.registerUser(formData); // call service
+      alert("Registration successful!");
+      navigate("/login"); // go to login page
     } catch (err) {
-      console.error("Frontend Error:", err.message);
-      setServerError(err.message); // show backend error
+      console.error(err);
+      setServerError(err.message || "Registration failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-8 rounded shadow-lg"
-      >
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+    <div className="about-wrapper">
+      <div className="signup-card">
+        <h3 className="signup-title">Join the network</h3>
+        {serverError && <p className="error-message">{serverError}</p>}
 
-        {serverError && (
-          <p className="bg-red-100 text-red-600 p-2 rounded mb-3 text-center">
-            {serverError}
-          </p>
-        )}
-
-        {/* firstname */}
-        <div className="mb-4">
-          <label className="block mb-1">First Name</label>
+        <form className="signup-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="firstname"
-            className="w-full border p-2 rounded"
+            placeholder="First name"
             value={formData.firstname}
             onChange={handleChange}
+            required
           />
-          {errors.firstname && (
-            <p className="text-red-500 text-sm">{errors.firstname}</p>
-          )}
-        </div>
-
-        {/* lastname */}
-        <div className="mb-4">
-          <label className="block mb-1">Last Name</label>
           <input
             type="text"
             name="lastname"
-            className="w-full border p-2 rounded"
+            placeholder="Last name"
             value={formData.lastname}
             onChange={handleChange}
+            required
           />
-          {errors.lastname && (
-            <p className="text-red-500 text-sm">{errors.lastname}</p>
-          )}
-        </div>
-
-        {/* username */}
-        <div className="mb-4">
-          <label className="block mb-1">Username</label>
           <input
             type="text"
             name="username"
-            className="w-full border p-2 rounded"
+            placeholder="Username"
             value={formData.username}
             onChange={handleChange}
+            required
           />
-          {errors.username && (
-            <p className="text-red-500 text-sm">{errors.username}</p>
-          )}
-        </div>
-
-        {/* email */}
-        <div className="mb-4">
-          <label className="block mb-1">Email</label>
           <input
             type="email"
             name="email"
-            className="w-full border p-2 rounded"
+            placeholder="Email address"
             value={formData.email}
             onChange={handleChange}
+            required
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email}</p>
-          )}
-        </div>
-
-        {/* password */}
-        <div className="mb-4">
-          <label className="block mb-1">Password</label>
           <input
             type="password"
             name="password"
-            className="w-full border p-2 rounded"
+            placeholder="Password"
             value={formData.password}
             onChange={handleChange}
+            required
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password}</p>
-          )}
-        </div>
 
-        {/* button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          {loading ? "Creating account..." : "Sign Up"}
+          <label className="terms-label">
+            <input type="checkbox" required /> I agree to the{" "}
+            <a href="hgh">privacy policy</a> and <a href="hgh">terms of service</a>.
+          </label>
+
+          <button type="submit" className="signup-btn" disabled={loading}>
+            {loading ? "Creating account..." : "Agree and Join"}
+          </button>
+
+          <p className="signin-footer">
+            Already have an account?{" "}
+            <span
+              className="signin-link"
+              onClick={() => navigate("/login")}
+              style={{ color: "blue", cursor: "pointer" }}
+            >
+              Sign in
+            </span>
+          </p>
+        </form>
+      </div>
+
+      <div className="about-section">
+        <h4 className="about-title">About</h4>
+        <h1 className="about-heading">Evangadi Networks</h1>
+        <p className="about-text">
+          No matter what stage of life you are in, whether you’re just starting
+          elementary school or being promoted to CEO of a Fortune 500 company,
+          you have much to offer to those who are trying to follow in your
+          footsteps.
+        </p>
+        <p className="about-text">
+          Whether you are willing to share your knowledge or you are just
+          looking to meet mentors of your own, please start by joining the
+          network here.
+        </p>
+        <button className="how-btn" onClick={() => navigate("/signup")}>
+          HOW IT WORKS
         </button>
-      </form>
+      </div>
     </div>
   );
 };
+
 export default SignUp;
