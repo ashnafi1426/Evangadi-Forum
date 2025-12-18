@@ -1,35 +1,40 @@
+/* ================= HEADER BASE ================= */
 .header {
   width: 100%;
   background-color: #fff;
   border-bottom: 1px solid #eaeaea;
-  padding: 12px 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  /* ✅ FIXED */
+  left: 0;
+  z-index: 1000;
 }
 
 .header-container {
-  width: 100%;
   max-width: 1200px;
+  margin: auto;
+  padding: 12px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
+/* ================= LOGO ================= */
 .logo img {
   height: 35px;
-  object-fit: contain;
+  cursor: pointer;
 }
 
+/* ================= NAV ================= */
 .nav-links {
   display: flex;
   gap: 25px;
+  align-items: center;
 }
 
 .nav-links a {
-  color: #555;
   text-decoration: none;
-  font-size: 15px;
+  color: #555;
   font-weight: 500;
   transition: color 0.2s;
 }
@@ -38,38 +43,74 @@
   color: #f48024;
 }
 
+/* ================= AUTH BUTTON ================= */
 .auth-btn button {
+  background-color: #f48024;
   border: none;
-  outline: none;
   color: white;
-  background-color: #4267b2;
-  padding: 7px 18px;
-  border-radius: 4px;
+  padding: 8px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  font-weight: 600;
 }
 
 .auth-btn button:hover {
-  background-color: #365899;
+  background-color: #e06f14;
 }
 
-.logout-btn {
-  background-color: #4267b2;
+/* ================= HAMBURGER ================= */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
 }
 
-.login-btn {
-  background-color: #4267b2;
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #333;
 }
 
-/* Responsive */
+/* ================= DESKTOP / MOBILE VISIBILITY ================= */
+.desktop-auth {
+  display: block;
+}
+
+.mobile-auth {
+  display: none;
+}
+
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
-  .header-container {
-    flex-direction: column;
-    gap: 12px;
+  .hamburger {
+    display: flex;
+  }
+
+  .desktop-auth {
+    display: none;
   }
 
   .nav-links {
-    gap: 15px;
+    position: absolute;
+    top: 100%;
+    /* ✅ BELOW HEADER */
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 25px 0;
+    border-bottom: 1px solid #eaeaea;
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .mobile-auth {
+    display: block;
   }
 }

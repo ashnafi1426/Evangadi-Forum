@@ -27,9 +27,9 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      await userService.registerUser(formData); // call service
+      await userService.registerUser(formData); // WAIT for promise
       alert("Registration successful!");
-      navigate("/login"); // go to login page
+      navigate("/login");
     } catch (err) {
       console.error(err);
       setServerError(err.message || "Registration failed");
@@ -37,6 +37,7 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="about-wrapper">

@@ -1,5 +1,4 @@
-// src/services/userService.js
-const api_url = process.env.REACT_APP_API_URL || "http://localhost:5500"; // fallback if .env missing
+const api_url = process.env.REACT_APP_API_URL || "https://evangadi-forum-vne0.onrender.com";
 
 // Register a new user
 const registerUser = async (formData) => {
@@ -9,8 +8,14 @@ const registerUser = async (formData) => {
     body: JSON.stringify(formData),
   });
 
-  // Convert response to JSON
-  const data = await response.json();
+  // Parse response safely
+  const text = await response.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    throw new Error("Invalid response from server");
+  }
 
   if (!response.ok) {
     throw new Error(data.msg || "Registration failed");
@@ -27,7 +32,15 @@ const loginUser = async (formData) => {
     body: JSON.stringify(formData),
   });
 
-  const data = await response.json();
+  const text = await response.text();
+  console.log(text)
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    throw new Error("Invalid response from server");
+  }
+
   if (!response.ok) {
     throw new Error(data.msg || "Login failed");
   }
@@ -41,7 +54,14 @@ const checkUser = async (token) => {
     headers: { "Content-Type": "application/json", "x-access-token": token },
   });
 
-  const data = await response.json();
+  const text = await response.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    throw new Error("Invalid response from server");
+  }
+
   if (!response.ok) {
     throw new Error(data.msg || "User check failed");
   }

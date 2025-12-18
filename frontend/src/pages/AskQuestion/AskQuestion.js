@@ -38,35 +38,41 @@ function AskQuestion() {
   };
 
   return (
-    <div className="ask-wrapper">
-      <h2>Steps To Write A Good Question</h2>
-      <ul>
-        <li>🟣 Summarize your problem in one line</li>
-        <li>🟣 Describe your problem in detail</li>
-        <li>🟣 Explain what you tried</li>
-        <li>🟣 Review and post</li>
-      </ul>
+    <div className="ask-page">
+      <div className="ask-wrapper">
+        <div className="ask-header">
+          <h2>Steps To Write A Good Question</h2>
+          <ul>
+            <li>🟣 Summarize your problem in one line</li>
+            <li>🟣 Describe your problem in detail</li>
+            <li>🟣 Explain what you tried</li>
+            <li>🟣 Review and post</li>
+          </ul>
+          <h3>Post Your Question</h3>
+        </div>
 
-      <h3>Post Your Question</h3>
-      <form onSubmit={handleSubmit} className="ask-form">
-        <input
-          type="text"
-          name="title"
-          placeholder="Question title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          name="description"
-          placeholder="Question details..."
-          value={formData.description}
-          onChange={handleChange}
-          required
-          rows="5"
-        ></textarea>
-        <button type="submit">Post Question</button>
-      </form>
+        <div className="ask-form-container">
+          <form onSubmit={handleSubmit} className="ask-form">
+            <input
+              type="text"
+              name="title"
+              placeholder="Question title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+            <textarea
+              name="description"
+              placeholder="Question details..."
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows="5"
+            />
+            <button type="submit">Post Question</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

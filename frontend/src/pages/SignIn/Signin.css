@@ -40,7 +40,6 @@
   cursor: pointer;
   transition: 0.2s ease;
 }
-
 .auth-link:hover {
   color: #e65c00;
 }

@@ -1,7 +1,3 @@
-/* ===============================
-   HOME PAGE STYLING
-   =============================== */
-
 .home-wrapper {
   width: 90%;
   max-width: 900px;
@@ -10,28 +6,15 @@
   flex-direction: column;
   gap: 20px;
   font-family: "Poppins", sans-serif;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
-/* ==== Header Section ==== */
+/* Header */
 .home-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-}
-
-.ask-btn {
-  background-color: #fe8402;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.ask-btn:hover {
-  background-color: #e76d00;
 }
 
 .welcome-text {
@@ -44,28 +27,50 @@
   color: #fe8402;
 }
 
-/* ==== Search Bar ==== */
-.search-bar {
+/* Top actions: search + ask button */
+.top-actions {
   display: flex;
-  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.search-bar input {
-  width: 100%;
-  max-width: 500px;
+.search-input {
+  flex: 1 1 auto;
+  min-width: 200px;
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 15px;
-  outline: none;
-  transition: border-color 0.3s ease;
+  box-sizing: border-box;
 }
 
-.search-bar input:focus {
+.search-input:focus {
+  outline: none;
   border-color: #fe8402;
 }
 
-/* ==== Question List ==== */
+.ask-btn {
+  background-color: #fe8402;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+  /* never shrink */
+  min-width: 120px;
+  /* minimum width */
+}
+
+.ask-btn:hover {
+  background-color: #e76d00;
+}
+
+/* Question list */
 .question-list {
   display: flex;
   flex-direction: column;
@@ -73,7 +78,7 @@
 }
 
 .question-item {
-  background-color: #fff;
+  background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 14px 18px;
@@ -81,7 +86,8 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease;
+  flex-wrap: wrap;
 }
 
 .question-item:hover {
@@ -89,72 +95,104 @@
   transform: translateY(-2px);
 }
 
-/* ==== Left Section (Avatar + Text) ==== */
 .question-left {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex: 1 1 70%;
+  min-width: 0;
+}
+
+.text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
 }
 
 .avatar {
   background-color: #fe8402;
-  color: #fff;
-  width: 45px;
-  height: 45px;
+  color: white;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  font-size: 20px;
-  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
-/* ==== Username and Title ==== */
 .username {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .question-title {
-  font-size: 16px;
+  font-size: 15px;
   color: #555;
-  margin-top: 3px;
+  line-height: 1.4;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-/* ==== Right Arrow ==== */
 .arrow {
   font-size: 22px;
   color: #999;
+  flex-shrink: 0;
 }
 
-/* ==== No Questions ==== */
 .no-questions {
   text-align: center;
   color: #777;
-  margin-top: 20px;
   font-style: italic;
 }
 
-/* ==== Responsive ==== */
-@media (max-width: 600px) {
-  .home-wrapper {
-    width: 95%;
-    margin-top: 20px;
+/* Responsive */
+@media (max-width: 768px) {
+  .top-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .ask-btn {
-    padding: 8px 14px;
-    font-size: 14px;
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-wrapper {
+    margin: 20px auto;
+    padding: 0 5px;
   }
 
   .avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .username {
+    font-size: 13px;
   }
 
   .question-title {
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  .arrow {
+    font-size: 18px;
   }
 }

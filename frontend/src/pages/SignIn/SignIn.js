@@ -15,7 +15,7 @@ function SignIn() {
     try {
       // call userService instead of axios
       const res = await userService.loginUser(formData);
-
+    console.log(res)
       // store token and username
       localStorage.setItem("token", res.token);
       localStorage.setItem("username", res.username);

@@ -1,66 +1,61 @@
-.ask-wrapper {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-}
-
-.ask-title {
-  font-size: 1.3rem;
-  color: #111827;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #ef4444;
-  display: inline-block;
-  padding-bottom: 4px;
-}
-
-.steps p {
-  font-family: monospace;
-  margin: 8px 0;
-  color: #111827;
-}
-
-.post-title {
-  margin-top: 25px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #111827;
-  text-align: center;
-}
-
-.ask-form {
-  margin-top: 15px;
+/* AskQuestion.css */
+.ask-page {
+  min-height: 100vh;
+  /* take full viewport height */
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  justify-content: center;
+  align-items: flex-start;
+  /* start from top */
+  padding: 100px 20px 50px 20px;
+  /* top padding avoids header overlap */
+  background-color: #f9f9f9;
+}
+
+.ask-wrapper {
+  max-width: 700px;
+  width: 100%;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ask-header h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.ask-header ul {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.ask-header h3 {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .ask-form input,
 .ask-form textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  outline: none;
-}
-
-.ask-form input:focus,
-.ask-form textarea:focus {
-  border-color: #2563eb;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .ask-form button {
-  background-color: #2563eb;
+  background-color: #4f46e5;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
-  align-self: flex-start;
 }
 
 .ask-form button:hover {
-  background-color: #1d4ed8;
+  background-color: #4338ca;
 }
